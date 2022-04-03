@@ -1,0 +1,29 @@
+frames: 1000
+speed: 10 fps
+2
+
+Circle
+r: 100
+x: 500
+y: 50
+Color: 255, 0, 0
+border: 3
+effect
+Show
+start: 100
+
+Rect
+length: 100
+width: 50
+x: 25
+y: 25
+border: 5
+
+Line
+startX: 600
+startY: 30
+endX: 600
+endY: 10
+Color: 0, 255, 0
+border: 7
+
