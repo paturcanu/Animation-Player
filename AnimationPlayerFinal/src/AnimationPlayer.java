@@ -24,40 +24,82 @@ import javafx.scene.Node;
 
 /**
  *
- * @author Phil's Predator
+ * @author Philipe Turcanu
  */
 public class AnimationPlayer extends Application {
     
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args){
         launch(args);
     
         
     }
     
-    public int frames, frame;
-    public int speed, delayInMs;
-    public int elements;
-    public Pane pane = new Pane();
-    public String line;
+    /**
+     *
+     */
+    public int frames, //Total frames read from file
+
+    /**
+     *
+     */
+    frame; //Frame of effect
+
+    /**
+     *
+     */
+    public int speed, //Speed that is read from file
+
+    /**
+     *
+     */
+    delayInMs; //Calculated delay for loop
+
+    /**
+     *
+     */
+    public int elements; //total number of objects in the animation
+
+    /**
+     *
+     */
+    public Pane pane = new Pane(); //pane for the animation
+
+    /**
+     *
+     */
+    public String line; //Line read from file
+
+    /**
+     *
+     */
     public String fileName = "C:\\Users\\Phil's Predator\\Documents\\NetBeansProjects\\Animation-Player\\AnimationPlayerFinal\\src\\animation.txt";
+    //Path for animation.txt
+    private String[] splitLine; //splitLine from original line that is read, array of strings
     
-    private String[] splitLine;
-    
-    public void run(Stage primaryStage) throws InterruptedException {
-        Scene scene = new Scene(pane, 1024, 800, true);
+    /**
+     * 
+     * @param primaryStage
+     * @throws InterruptedException
+     */
+    public void run(Stage primaryStage) throws InterruptedException { //This is the animation player run() method. Runs the animation 
+        Scene scene = new Scene(pane, 1024, 800, true); //This is the size of the window
         primaryStage.setScene(scene);
-        primaryStage.setTitle("2D Example");
-        for (int i = 0; i < frames; i++) { 
+        primaryStage.setTitle("2D Animation");
+        for (int i = 0; i < frames; i++) { //Animation loop, goes through loops
             //Attempt to do the animation
             long initialTime = System.currentTimeMillis() ;
             System.out.println(initialTime);
-            while(true){
+            while(true){ //My attempt at addingh a pause/delay in the for loop
                 long deltaTime = System.currentTimeMillis() - initialTime;
                 if (deltaTime >= 10) {
                     break;
                 }
             }
-            for(Node node: pane.getChildren()) {
+            for(Node node: pane.getChildren()) { //Runs all of the effects of each object
                 if( node instanceof CircleEffects) {
                     CircleEffects cir = (CircleEffects) node;
                     cir.ApplyEffect(i);
@@ -72,31 +114,44 @@ public class AnimationPlayer extends Application {
                 }
 
             }
-            primaryStage.show();
+            primaryStage.show(); //Shows the stage at every frame/iteration
         }
         
         
     }
+
+    /**
+     *
+     * @param primaryStage
+     * @throws IOException
+     * @throws InterruptedException
+     */
     @Override
-    public void start(Stage primaryStage) throws IOException, InterruptedException {
+    public void start(Stage primaryStage) throws IOException, InterruptedException { //Calls on the run and loadAnimation methods
         loadAnimationFromFile(fileName);
         run(primaryStage);
     }
+
+    /**
+     *
+     * @param fileName
+     * @throws IOException
+     */
     public void loadAnimationFromFile(String fileName) throws IOException {    
         BufferedReader input = null;
         try {
             input = new BufferedReader(
                 new FileReader(
-                    new File(fileName)));
-            while (true) {
+                    new File(fileName))); //start by having an input from the file (reads a line)
+            while (true) { 
                 //System.out.println("Entering loop");
                 line = input.readLine();
                 //System.out.println("Current line: " + line);
-                if (line == null) {
+                if (line == null) { //Keeps reading lines until there is an empty line
                     //System.out.println("Line is null");
                     break;
                 }
-                if (line.contains("frames")) {
+                if (line.contains("frames")) { //Reads the different lines of the file and saves them in variables
                     splitLine = line.split(": ", 2);
                     frames = Integer.parseInt(splitLine[1]);
                     //System.out.println("frames: " + frames);
@@ -112,11 +167,11 @@ public class AnimationPlayer extends Application {
                     elements = Integer.parseInt(line);
                     //System.out.println("elements: " + elements);
                 }
-                if (line.contains("Circle")) {
+                if (line.contains("Circle")) { //In this case, new object of type CircleEffects is generated
                     CircleEffects circle = new CircleEffects();
                     circle.myEffects.addEffect(0, EffectType.HIDE);
                     while (line.compareTo("") != 0) {
-                        line = input.readLine();
+                        line = input.readLine(); //The loop will save all attributes associated with that objects
 
                         if (line.contains("Color: ")) {
                             //System.out.println("Color ");
@@ -153,7 +208,7 @@ public class AnimationPlayer extends Application {
                             continue;
                         }
                         
-                        if (line.contains("effect")) {
+                        if (line.contains("effect")) { //Adds all of the effects of the object into its' effects array
                             while (line.compareTo("") != 0) {
                                 line = input.readLine();
                                 if (line.contains("Hide")) {
@@ -214,6 +269,9 @@ public class AnimationPlayer extends Application {
                                     }
                             
                                 }
+                                if (line.contains("effect")) { //new effect added
+                                    continue;
+                                }
                             }
                         
                         }
@@ -222,7 +280,7 @@ public class AnimationPlayer extends Application {
                     pane.getChildren().add(circle);
                     
                 }
-                if (line.contains("Rect")) {
+                if (line.contains("Rect")) {//In this case, new object of type RectangleEffects is generated
                     RectangleEffects rectangle = new RectangleEffects();
                     while (line.compareTo("") != 0) {
                         line = input.readLine();
@@ -268,7 +326,7 @@ public class AnimationPlayer extends Application {
                             rectangle.setStrokeWidth(Integer.parseInt(splitLine[1]));
                             continue;
                         }
-                        if (line.contains("effect")) {
+                        if (line.contains("effect")) {//Adds all of the effects of the object into its' effects array
                             while (line.compareTo("") != 0) {
                                 line = input.readLine();
                                 if (line.contains("Hide")) {
@@ -329,6 +387,9 @@ public class AnimationPlayer extends Application {
                                     }
                             
                                 }
+                                if (line.contains("effect")) {
+                                    continue;
+                                }
                             }
                         
                         }
@@ -338,7 +399,7 @@ public class AnimationPlayer extends Application {
                     
                 
                 }
-                if (line.contains("Line")) {
+                if (line.contains("Line")) { //In this case, new object of type LineEffects is generated
                     LineEffects l = new LineEffects();
                     while (line.compareTo("") != 0) {
                         line = input.readLine();
@@ -384,7 +445,7 @@ public class AnimationPlayer extends Application {
                             l.setStrokeWidth(Integer.parseInt(splitLine[1]));
                             continue;
                         }
-                        if (line.contains("effect")) {
+                        if (line.contains("effect")) { //Adds all of the effects of the object into its' effects array
                             while (line.compareTo("") != 0) {
                                 line = input.readLine();
                                 if (line.contains("Hide")) {
@@ -443,6 +504,9 @@ public class AnimationPlayer extends Application {
                                         }
                                     }
                             
+                                }
+                                if (line.contains("effect")) {
+                                    continue;
                                 }
                             }
                         

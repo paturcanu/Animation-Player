@@ -6,22 +6,51 @@
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
+/**
+ *
+ * @author Philipe Turcanu
+ */
 public class LineEffects extends Line{
+
+    /**
+     *
+     */
     public Effects myEffects = new Effects();
     private Color col;
-    public int jumpX, jumpY;
+
+    /**
+     *
+     */
+    public int jumpX,
+
+    /**
+     *
+     */
+    jumpY;
+
+    /**
+     *
+     */
     public Color newColor;
     
-    
+    /**
+     *
+     */
     public void ShowEffect() {
         this.setFill(col);
     }
     
+    /**
+     *
+     */
     public void HideEffect() {
         col = (Color) this.getFill();
         this.setFill(Color.TRANSPARENT);
     }
     
+    /**
+     *
+     */
     public void JumpEffect() {
         double StartX = this.getStartX();
         double StartY = this.getStartY();
@@ -33,10 +62,17 @@ public class LineEffects extends Line{
         this.setEndY(jumpY + EndY);
     }
     
+    /**
+     *
+     */
     public void ChangeColorEffect() {
         this.setStroke(newColor);
     }
     
+    /**
+     *
+     * @param frameNumber
+     */
     public void ApplyEffect(int frameNumber) {
         for (int i = 0; i < myEffects.numberEffects; i++) {
             if (myEffects.effects[i].frameNumber == frameNumber) {
@@ -54,7 +90,7 @@ public class LineEffects extends Line{
                         ChangeColorEffect();
                         break;
                     default :
-                        //exception
+                        break;
                 }
             }
         }

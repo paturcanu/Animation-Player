@@ -9,9 +9,24 @@
  */
 public enum EffectType {
 
+    /**
+     *
+     */
     HIDE, 
+
+    /**
+     *
+     */
     SHOW,
+
+    /**
+     *
+     */
     JUMP,
+
+    /**
+     *
+     */
     CHANGECOLOR
 
 }

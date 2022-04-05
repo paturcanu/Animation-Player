@@ -6,21 +6,51 @@
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+/**
+ *
+ * @author Philipe Turcanu
+ */
 public class RectangleEffects extends Rectangle {
+
+    /**
+     *
+     */
     public Effects myEffects = new Effects();
     private Color col;
-    public int jumpX, jumpY;
+
+    /**
+     *
+     */
+    public int jumpX,
+
+    /**
+     *
+     */
+    jumpY;
+
+    /**
+     *
+     */
     public Color newColor;
     
+    /**
+     *
+     */
     public void ShowEffect() {
         this.setFill(col);
     }
     
+    /**
+     *
+     */
     public void HideEffect() {
         col = (Color) this.getFill();
         this.setFill(Color.TRANSPARENT);
     }
     
+    /**
+     *
+     */
     public void JumpEffect() {
         double coordX = this.getX();
         double coordY = this.getY();
@@ -28,10 +58,17 @@ public class RectangleEffects extends Rectangle {
         this.setY(jumpY + coordY);
     }
     
+    /**
+     *
+     */
     public void ChangeColorEffect() {
         this.setFill(newColor);
     }
     
+    /**
+     *
+     * @param frameNumber
+     */
     public void ApplyEffect(int frameNumber) {
         for (int i = 0; i < myEffects.numberEffects; i++) {
             if (myEffects.effects[i].frameNumber == frameNumber) {
@@ -49,7 +86,7 @@ public class RectangleEffects extends Rectangle {
                         ChangeColorEffect();
                         break;
                     default :
-                        //exception
+                        break;
                 }
             }
         }
